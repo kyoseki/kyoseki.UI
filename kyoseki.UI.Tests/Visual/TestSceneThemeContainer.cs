@@ -3,7 +3,6 @@ using kyoseki.UI.Components.Theming;
 using NUnit.Framework;
 using osu.Framework.Allocation;
 using osu.Framework.Graphics;
-using osu.Framework.Graphics.Colour;
 using osu.Framework.Graphics.Shapes;
 using osu.Framework.Testing;
 
@@ -49,15 +48,9 @@ namespace kyoseki.UI.Tests.Visual
             AddStep("kyoseki", () => themeContainer.SetTheme(new KyosekiTheme()));
         }
 
+        [Themeable(nameof(UITheme.BackgroundColour), nameof(Colour))]
         private class Background : Box
         {
-            [Themeable]
-            public ColourInfo BackgroundColour
-            {
-                get => Colour;
-                set => Colour = value;
-            }
-
             [BackgroundDependencyLoader(true)]
             private void load(ThemeContainer themeContainer)
             {

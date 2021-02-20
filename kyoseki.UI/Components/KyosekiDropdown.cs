@@ -16,6 +16,8 @@ namespace kyoseki.UI.Components
 
         protected override DropdownHeader CreateHeader() => new KyosekiDropdownHeader();
 
+        [Themeable(nameof(UITheme.ButtonFill), nameof(BackgroundColour))]
+        [Themeable(nameof(UITheme.ButtonSelected), nameof(BackgroundColourHover))]
         public class KyosekiDropdownHeader : DropdownHeader
         {
             public const int CORNER_RADIUS = 4;
@@ -33,7 +35,7 @@ namespace kyoseki.UI.Components
                 set => label.Text = value;
             }
 
-            [Themeable]
+            [Themeable(nameof(UITheme.ForegroundColour))]
             public ColourInfo ForegroundColour
             {
                 get => label.Colour;
@@ -42,20 +44,6 @@ namespace kyoseki.UI.Components
                     label.Colour = value;
                     icon.Colour = value;
                 }
-            }
-
-            [Themeable]
-            public ColourInfo ButtonFill
-            {
-                get => BackgroundColour;
-                set => BackgroundColour = value;
-            }
-
-            [Themeable]
-            public ColourInfo ButtonSelected
-            {
-                get => BackgroundColourHover;
-                set => BackgroundColourHover = value;
             }
 
             public KyosekiDropdownHeader()
@@ -106,7 +94,7 @@ namespace kyoseki.UI.Components
         {
             private const int corner_radius = 4;
 
-            [Themeable]
+            [Themeable(nameof(UITheme.ButtonBackground))]
             public ColourInfo ButtonBackground
             {
                 get => BackgroundColour;
@@ -181,37 +169,13 @@ namespace kyoseki.UI.Components
 
             protected override ScrollContainer<Drawable> CreateScrollContainer(Direction direction) => new KyosekiScrollContainer(direction);
 
+            [Themeable(nameof(UITheme.ForegroundColour), nameof(ForegroundColour))]
+            [Themeable(nameof(UITheme.ForegroundSelected), nameof(ForegroundColourSelected))]
+            [Themeable(nameof(UITheme.ForegroundSelected), nameof(ForegroundColourHover))]
+            [Themeable(nameof(UITheme.ButtonSelected), nameof(BackgroundColourHover))]
+            [Themeable(nameof(UITheme.ButtonSelected), nameof(BackgroundColourSelected), 0.75f)]
             private class DrawableKyosekiDropdownMenuItem : DrawableDropdownMenuItem
             {
-                [Themeable(nameof(UITheme.ForegroundColour))]
-                public ColourInfo Foreground
-                {
-                    get => ForegroundColour;
-                    set => ForegroundColour = value;
-                }
-
-                [Themeable(nameof(UITheme.ForegroundSelected))]
-                public ColourInfo ForegroundSelected
-                {
-                    get => ForegroundColourSelected;
-                    set
-                    {
-                        ForegroundColourSelected = value;
-                        ForegroundColourHover = value;
-                    }
-                }
-
-                [Themeable]
-                public ColourInfo ButtonSelected
-                {
-                    get => BackgroundColourHover;
-                    set
-                    {
-                        BackgroundColourHover = value;
-                        BackgroundColourSelected = ((Colour4)value).Opacity(0.75f);
-                    }
-                }
-
                 public DrawableKyosekiDropdownMenuItem(MenuItem item)
                     : base(item)
                 {
