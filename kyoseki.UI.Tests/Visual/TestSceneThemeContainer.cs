@@ -1,10 +1,10 @@
-﻿using kyoseki.UI.Components.Theming;
+﻿using kyoseki.UI.Components;
+using kyoseki.UI.Components.Theming;
 using NUnit.Framework;
 using osu.Framework.Allocation;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Colour;
 using osu.Framework.Graphics.Shapes;
-using osu.Framework.Graphics.Sprites;
 using osu.Framework.Testing;
 
 namespace kyoseki.UI.Tests.Visual
@@ -24,10 +24,19 @@ namespace kyoseki.UI.Tests.Visual
                     {
                         RelativeSizeAxes = Axes.Both
                     },
-                    new ThemeableText
+                    new KyosekiDropdown<string>
                     {
-                        Font = FontUsage.Default,
-                        Text = "text text text text"
+                        Width = 300,
+                        Anchor = Anchor.Centre,
+                        Origin = Anchor.TopCentre,
+                        Items = new[]
+                        {
+                            "hello there!",
+                            "welcome to osu!",
+                            "test 1",
+                            "test 2",
+                            "test 3"
+                        }
                     }
                 }
             });
@@ -37,38 +46,13 @@ namespace kyoseki.UI.Tests.Visual
         public void TestSetTheme()
         {
             AddStep("default theme", () => themeContainer.SetTheme(new UITheme()));
-            AddStep("ugly", () => themeContainer.SetTheme(new Ugly()));
-        }
-
-        private class Ugly : UITheme
-        {
-            public override ColourInfo BackgroundColour => Colour4.Gray;
-
-            public override ColourInfo ForegroundColour => Colour4.Black;
-
-            public ColourInfo SpecialUglyColour => Colour4.FromHex("7D6B00");
+            AddStep("kyoseki", () => themeContainer.SetTheme(new KyosekiTheme()));
         }
 
         private class Background : Box
         {
             [Themeable]
             public ColourInfo BackgroundColour
-            {
-                get => Colour;
-                set => Colour = value;
-            }
-
-            [BackgroundDependencyLoader(true)]
-            private void load(ThemeContainer themeContainer)
-            {
-                themeContainer?.Register(this);
-            }
-        }
-
-        private class ThemeableText : SpriteText
-        {
-            [Themeable(nameof(Ugly.SpecialUglyColour))]
-            public ColourInfo ForegroundColour
             {
                 get => Colour;
                 set => Colour = value;

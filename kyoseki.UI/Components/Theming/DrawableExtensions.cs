@@ -7,15 +7,15 @@ namespace kyoseki.UI.Components.Theming
 {
     public static class DrawableExtensions
     {
-        public static void ApplyTheme(this Drawable drawable, UITheme theme)
+        public static void ApplyTheme(this Drawable drawable, UITheme theme, bool fade = false)
         {
             typeof(DrawableExtensions)
                 .GetMethod(nameof(ApplyThemeGeneric))?
                 .MakeGenericMethod(drawable.GetType())
-                .Invoke(null, new object[] { drawable, theme });
+                .Invoke(null, new object[] { drawable, theme, fade });
         }
 
-        public static void ApplyThemeGeneric<T>(this T drawable, UITheme theme)
+        public static void ApplyThemeGeneric<T>(this T drawable, UITheme theme, bool fade = false)
             where T : Drawable
         {
             var props = drawable.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
@@ -29,8 +29,16 @@ namespace kyoseki.UI.Components.Theming
                 var themeProp = theme.GetType().GetProperty(attr.ThemeProperty ?? prop.Name);
                 var newValue = themeProp?.GetValue(theme);
 
-                if (prop.PropertyType == typeof(ColourInfo))
-                    drawable.TransformTo(prop.Name, (ColourInfo?)newValue ?? (ColourInfo)Colour4.White, attr.EaseDuration, attr.Easing);
+                if (prop.PropertyType == typeof(ColourInfo) &&
+                    (themeProp?.PropertyType == typeof(ColourInfo) || themeProp?.PropertyType == typeof(Colour4)))
+                {
+                    var colour = (ColourInfo)((Colour4?)newValue ?? Colour4.White);
+
+                    if (fade)
+                        drawable.TransformTo(prop.Name, colour, attr.EaseDuration, attr.Easing);
+                    else
+                        prop.SetValue(drawable, colour);
+                }
             }
         }
     }

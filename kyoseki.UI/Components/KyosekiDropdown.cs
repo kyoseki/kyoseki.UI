@@ -1,4 +1,7 @@
+using kyoseki.UI.Components.Theming;
+using osu.Framework.Allocation;
 using osu.Framework.Graphics;
+using osu.Framework.Graphics.Colour;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.Sprites;
@@ -22,11 +25,37 @@ namespace kyoseki.UI.Components
             public const int HEIGHT = vertical_padding * 2 + font_size;
 
             private readonly SpriteText label;
+            private readonly SpriteIcon icon;
 
             protected override string Label
             {
                 get => label.Text;
                 set => label.Text = value;
+            }
+
+            [Themeable]
+            public ColourInfo ForegroundColour
+            {
+                get => label.Colour;
+                set
+                {
+                    label.Colour = value;
+                    icon.Colour = value;
+                }
+            }
+
+            [Themeable]
+            public ColourInfo ButtonFill
+            {
+                get => BackgroundColour;
+                set => BackgroundColour = value;
+            }
+
+            [Themeable]
+            public ColourInfo ButtonSelected
+            {
+                get => BackgroundColourHover;
+                set => BackgroundColourHover = value;
             }
 
             public KyosekiDropdownHeader()
@@ -36,9 +65,6 @@ namespace kyoseki.UI.Components
                     Vertical = vertical_padding,
                     Horizontal = 10
                 };
-
-                BackgroundColour = KyosekiColors.ButtonBackground;
-                BackgroundColourHover = KyosekiColors.ButtonSelected;
 
                 CornerRadius = CORNER_RADIUS;
 
@@ -54,7 +80,7 @@ namespace kyoseki.UI.Components
                         Font = font,
                         Height = font.Size
                     },
-                    new SpriteIcon
+                    icon = new SpriteIcon
                     {
                         RelativeSizeAxes = Axes.Both,
                         Size = new Vector2(0.2f),
@@ -65,17 +91,37 @@ namespace kyoseki.UI.Components
                     }
                 };
             }
+
+            [BackgroundDependencyLoader(true)]
+            private void load(ThemeContainer themeContainer)
+            {
+                if (themeContainer != null)
+                    themeContainer.Register(this);
+                else
+                    this.ApplyTheme(new KyosekiTheme());
+            }
         }
 
         private class KyosekiDropdownMenu : DropdownMenu
         {
             private const int corner_radius = 4;
 
+            [Themeable]
+            public ColourInfo ButtonBackground
+            {
+                get => BackgroundColour;
+                set
+                {
+                    BackgroundColour = value;
+                    gapColour.Colour = value;
+                }
+            }
+
             private readonly Container gap;
+            private readonly Box gapColour;
 
             public KyosekiDropdownMenu()
             {
-                BackgroundColour = KyosekiColors.Background.Lighten(0.75f);
                 MaskingContainer.CornerRadius = corner_radius;
 
                 AddInternal(gap = new Container
@@ -86,12 +132,20 @@ namespace kyoseki.UI.Components
                     CornerRadius = corner_radius,
                     Depth = 1,
                     Masking = true,
-                    Child = new Box
+                    Child = gapColour = new Box
                     {
-                        Colour = KyosekiColors.ButtonBackground,
                         RelativeSizeAxes = Axes.Both
                     }
                 });
+            }
+
+            [BackgroundDependencyLoader(true)]
+            private void load(ThemeContainer themeContainer)
+            {
+                if (themeContainer != null)
+                    themeContainer.Register(this);
+                else
+                    this.ApplyTheme(new KyosekiTheme());
             }
 
             protected override Menu CreateSubMenu() => new KyosekiMenu(Direction.Vertical);
@@ -129,17 +183,53 @@ namespace kyoseki.UI.Components
 
             private class DrawableKyosekiDropdownMenuItem : DrawableDropdownMenuItem
             {
+                [Themeable(nameof(UITheme.ForegroundColour))]
+                public ColourInfo Foreground
+                {
+                    get => ForegroundColour;
+                    set => ForegroundColour = value;
+                }
+
+                [Themeable(nameof(UITheme.ForegroundSelected))]
+                public ColourInfo ForegroundSelected
+                {
+                    get => ForegroundColourSelected;
+                    set
+                    {
+                        ForegroundColourSelected = value;
+                        ForegroundColourHover = value;
+                    }
+                }
+
+                [Themeable]
+                public ColourInfo ButtonSelected
+                {
+                    get => BackgroundColourHover;
+                    set
+                    {
+                        BackgroundColourHover = value;
+                        BackgroundColourSelected = ((Colour4)value).Opacity(0.75f);
+                    }
+                }
+
                 public DrawableKyosekiDropdownMenuItem(MenuItem item)
                     : base(item)
                 {
                     BackgroundColour = Colour4.Transparent;
-                    BackgroundColourHover = KyosekiColors.ButtonSelected;
-                    BackgroundColourSelected = KyosekiColors.ButtonSelected.Opacity(0.9f);
                 }
 
                 protected override Drawable CreateContent() => new MenuTextContainer();
 
                 public void Show(int idx) => ((MenuTextContainer)Content).Show(idx);
+
+                [BackgroundDependencyLoader(true)]
+                private void load(ThemeContainer themeContainer)
+                {
+                    if (themeContainer != null)
+                        themeContainer.Register(this);
+                    else
+                        this.ApplyTheme(new KyosekiTheme());
+                }
             }
         }
     }

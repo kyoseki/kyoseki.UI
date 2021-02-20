@@ -39,7 +39,7 @@ namespace kyoseki.UI.Components.Theming
 
             foreach (var drawable in drawables)
             {
-                drawable.ApplyTheme(theme);
+                drawable.ApplyTheme(theme, true);
             }
 
             currentTheme = theme;
