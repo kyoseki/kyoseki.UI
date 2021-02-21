@@ -67,6 +67,9 @@ namespace kyoseki.UI.Components.Theming
 
                 setColour(drawable, attr, prop, theme, fade);
             }
+
+            if (drawable is IHasNestedThemeComponents t)
+                t.ApplyThemeToChildren(theme, fade);
         }
     }
 }

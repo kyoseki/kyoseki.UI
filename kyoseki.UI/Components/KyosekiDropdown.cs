@@ -10,11 +10,26 @@ using osuTK;
 
 namespace kyoseki.UI.Components
 {
-    public class KyosekiDropdown<T> : Dropdown<T>
+    public class KyosekiDropdown<T> : Dropdown<T>, IHasNestedThemeComponents
     {
         protected override DropdownMenu CreateMenu() => new KyosekiDropdownMenu();
 
         protected override DropdownHeader CreateHeader() => new KyosekiDropdownHeader();
+
+        public void ApplyThemeToChildren(UITheme theme, bool fade)
+        {
+            Header.ApplyTheme(theme, fade);
+            Menu.ApplyTheme(theme, fade);
+        }
+
+        [BackgroundDependencyLoader]
+        private void load(ThemeContainer themeContainer)
+        {
+            if (themeContainer != null)
+                themeContainer.Register(this);
+            else
+                this.ApplyTheme(new KyosekiTheme());
+        }
 
         [Themeable(nameof(UITheme.ButtonFill), nameof(BackgroundColour))]
         [Themeable(nameof(UITheme.ButtonSelected), nameof(BackgroundColourHover))]
@@ -79,18 +94,9 @@ namespace kyoseki.UI.Components
                     }
                 };
             }
-
-            [BackgroundDependencyLoader(true)]
-            private void load(ThemeContainer themeContainer)
-            {
-                if (themeContainer != null)
-                    themeContainer.Register(this);
-                else
-                    this.ApplyTheme(new KyosekiTheme());
-            }
         }
 
-        private class KyosekiDropdownMenu : DropdownMenu
+        private class KyosekiDropdownMenu : DropdownMenu, IHasNestedThemeComponents
         {
             private const int corner_radius = 4;
 
@@ -127,15 +133,6 @@ namespace kyoseki.UI.Components
                 });
             }
 
-            [BackgroundDependencyLoader(true)]
-            private void load(ThemeContainer themeContainer)
-            {
-                if (themeContainer != null)
-                    themeContainer.Register(this);
-                else
-                    this.ApplyTheme(new KyosekiTheme());
-            }
-
             protected override Menu CreateSubMenu() => new KyosekiMenu(Direction.Vertical);
 
             protected override void AnimateOpen()
@@ -169,6 +166,14 @@ namespace kyoseki.UI.Components
 
             protected override ScrollContainer<Drawable> CreateScrollContainer(Direction direction) => new KyosekiScrollContainer(direction);
 
+            public void ApplyThemeToChildren(UITheme theme, bool fade)
+            {
+                foreach (var item in DrawableMenuItems)
+                {
+                    item.ApplyTheme(theme, fade);
+                }
+            }
+
             [Themeable(nameof(UITheme.ForegroundColour), nameof(ForegroundColour))]
             [Themeable(nameof(UITheme.ForegroundSelected), nameof(ForegroundColourSelected))]
             [Themeable(nameof(UITheme.ForegroundSelected), nameof(ForegroundColourHover))]
@@ -185,15 +190,6 @@ namespace kyoseki.UI.Components
                 protected override Drawable CreateContent() => new MenuTextContainer();
 
                 public void Show(int idx) => ((MenuTextContainer)Content).Show(idx);
-
-                [BackgroundDependencyLoader(true)]
-                private void load(ThemeContainer themeContainer)
-                {
-                    if (themeContainer != null)
-                        themeContainer.Register(this);
-                    else
-                        this.ApplyTheme(new KyosekiTheme());
-                }
             }
         }
     }
