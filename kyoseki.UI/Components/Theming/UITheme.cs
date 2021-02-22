@@ -1,9 +1,12 @@
 ﻿using osu.Framework.Graphics;
+using osu.Framework.Graphics.Sprites;
 
 namespace kyoseki.UI.Components.Theming
 {
     public class UITheme
     {
+        public virtual FontUsage DefaultFont => FrameworkFont.Regular;
+
         public virtual Colour4 BackgroundColour => Colour4.SlateBlue;
         public virtual Colour4 ForegroundColour => Colour4.Black;
         public virtual Colour4 ForegroundSelected => Colour4.Black.Lighten(0.5f);

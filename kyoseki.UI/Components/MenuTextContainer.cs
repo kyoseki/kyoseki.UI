@@ -1,4 +1,5 @@
 using System;
+using kyoseki.UI.Components.Theming;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Sprites;
@@ -17,6 +18,13 @@ namespace kyoseki.UI.Components
             set => text.Text = value;
         }
 
+        [Themeable(nameof(UITheme.DefaultFont))]
+        public FontUsage Font
+        {
+            get => text.Font;
+            set => text.Font = value;
+        }
+
         private readonly SpriteText text;
 
         public MenuTextContainer()
@@ -32,8 +40,7 @@ namespace kyoseki.UI.Components
                 RelativePositionAxes = Axes.X,
                 Anchor = Anchor.CentreLeft,
                 Origin = Anchor.CentreLeft,
-                Margin = new MarginPadding { Horizontal = margin_horizontal, Vertical = margin_vertical },
-                Font = KyosekiFont.GetFont(size: 15)
+                Margin = new MarginPadding { Horizontal = margin_horizontal, Vertical = margin_vertical }
             };
         }
 

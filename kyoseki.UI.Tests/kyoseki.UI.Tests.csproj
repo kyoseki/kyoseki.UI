@@ -12,4 +12,7 @@
   <ItemGroup>
     <ProjectReference Include="..\kyoseki.UI\kyoseki.UI.csproj" />
   </ItemGroup>
+  <ItemGroup Label="Resources">
+    <EmbeddedResource Include="Resources\**\*.*" />
+  </ItemGroup>
 </Project>

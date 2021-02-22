@@ -50,6 +50,13 @@ namespace kyoseki.UI.Components
                 set => label.Text = value;
             }
 
+            [Themeable(nameof(UITheme.DefaultFont))]
+            public FontUsage Font
+            {
+                get => label.Font;
+                set => label.Font = value;
+            }
+
             [Themeable(nameof(UITheme.ForegroundColour))]
             public ColourInfo ForegroundColour
             {
@@ -73,15 +80,11 @@ namespace kyoseki.UI.Components
 
                 Depth = -1;
 
-                var font = KyosekiFont.Bold.With(size: font_size);
-
                 Children = new Drawable[]
                 {
                     label = new SpriteText
                     {
-                        AlwaysPresent = true,
-                        Font = font,
-                        Height = font.Size
+                        AlwaysPresent = true
                     },
                     icon = new SpriteIcon
                     {
@@ -179,7 +182,7 @@ namespace kyoseki.UI.Components
             [Themeable(nameof(UITheme.ForegroundSelected), nameof(ForegroundColourHover))]
             [Themeable(nameof(UITheme.ButtonSelected), nameof(BackgroundColourHover))]
             [Themeable(nameof(UITheme.ButtonSelected), nameof(BackgroundColourSelected), 0.75f)]
-            private class DrawableKyosekiDropdownMenuItem : DrawableDropdownMenuItem
+            private class DrawableKyosekiDropdownMenuItem : DrawableDropdownMenuItem, IHasNestedThemeComponents
             {
                 public DrawableKyosekiDropdownMenuItem(MenuItem item)
                     : base(item)
@@ -190,6 +193,11 @@ namespace kyoseki.UI.Components
                 protected override Drawable CreateContent() => new MenuTextContainer();
 
                 public void Show(int idx) => ((MenuTextContainer)Content).Show(idx);
+
+                public void ApplyThemeToChildren(UITheme theme, bool fade)
+                {
+                    Content.ApplyTheme(theme, fade);
+                }
             }
         }
     }

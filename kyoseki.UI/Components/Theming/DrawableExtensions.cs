@@ -2,6 +2,7 @@
 using System.Reflection;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Colour;
+using osu.Framework.Graphics.Sprites;
 using osuTK.Graphics;
 
 namespace kyoseki.UI.Components.Theming
@@ -16,30 +17,36 @@ namespace kyoseki.UI.Components.Theming
                 .Invoke(null, new object[] { drawable, theme, fade });
         }
 
-        private static void setColour<T>(T d, ThemeableAttribute attr, PropertyInfo prop, UITheme theme, bool fade)
+        private static void updateProperty<T>(T d, ThemeableAttribute attr, PropertyInfo prop, UITheme theme, bool fade)
             where T : Drawable
         {
             var themeProp = theme.GetType().GetProperty(attr.ThemeProperty);
-            if (themeProp?.PropertyType != typeof(ColourInfo) && themeProp?.PropertyType != typeof(Colour4)) return;
+            if (themeProp == null) return;
 
-            var colour = themeProp.GetValue(theme);
+            var value = themeProp.GetValue(theme);
 
-            var targetColour = (Colour4?)colour ?? Colour4.White;
-            targetColour = targetColour.Lighten(attr.Lightness).Darken(attr.Darkness).Opacity(attr.Opacity);
-
-            if (prop.PropertyType == typeof(ColourInfo))
+            if (value is Colour4 targetColour)
             {
-                if (fade)
-                    d.TransformTo(prop.Name, (ColourInfo)targetColour, attr.EaseDuration, attr.Easing);
-                else
-                    prop.SetValue(d, (ColourInfo)targetColour);
+                targetColour = targetColour.Lighten(attr.Lightness).Darken(attr.Darkness).Opacity(attr.Opacity);
+
+                if (prop.PropertyType == typeof(ColourInfo))
+                {
+                    if (fade)
+                        d.TransformTo(prop.Name, (ColourInfo)targetColour, attr.EaseDuration, attr.Easing);
+                    else
+                        prop.SetValue(d, (ColourInfo)targetColour);
+                }
+                else if (prop.PropertyType == typeof(Color4))
+                {
+                    if (fade)
+                        d.TransformTo(prop.Name, (Color4)targetColour, attr.EaseDuration, attr.Easing);
+                    else
+                        prop.SetValue(d, (Color4)targetColour);
+                }
             }
-            else if (prop.PropertyType == typeof(Color4))
+            else if (value is FontUsage targetFont && prop.PropertyType == typeof(FontUsage))
             {
-                if (fade)
-                    d.TransformTo(prop.Name, (Color4)targetColour, attr.EaseDuration, attr.Easing);
-                else
-                    prop.SetValue(d, (Color4)targetColour);
+                prop.SetValue(d, targetFont);
             }
         }
 
@@ -55,7 +62,7 @@ namespace kyoseki.UI.Components.Theming
                 var prop = drawable.GetType().GetProperty(attr.TargetProperty, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
                 if (prop == null) continue;
 
-                setColour(drawable, attr, prop, theme, fade);
+                updateProperty(drawable, attr, prop, theme, fade);
             }
 
             var props = drawable.GetType().GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
@@ -65,7 +72,7 @@ namespace kyoseki.UI.Components.Theming
                 var attr = (ThemeableAttribute)Attribute.GetCustomAttribute(prop, typeof(ThemeableAttribute));
                 if (attr == null) continue;
 
-                setColour(drawable, attr, prop, theme, fade);
+                updateProperty(drawable, attr, prop, theme, fade);
             }
 
             if (drawable is IHasNestedThemeComponents t)

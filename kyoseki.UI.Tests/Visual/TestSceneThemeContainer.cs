@@ -4,6 +4,7 @@ using NUnit.Framework;
 using osu.Framework.Allocation;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Shapes;
+using osu.Framework.Graphics.Sprites;
 using osu.Framework.Testing;
 
 namespace kyoseki.UI.Tests.Visual
@@ -46,6 +47,7 @@ namespace kyoseki.UI.Tests.Visual
         {
             AddStep("default theme", () => themeContainer.SetTheme(new UITheme()));
             AddStep("kyoseki", () => themeContainer.SetTheme(new KyosekiTheme()));
+            AddStep("with font", () => themeContainer.SetTheme(new TestFontTheme()));
         }
 
         [Themeable(nameof(UITheme.BackgroundColour), nameof(Colour))]
@@ -56,6 +58,11 @@ namespace kyoseki.UI.Tests.Visual
             {
                 themeContainer?.Register(this);
             }
+        }
+
+        private class TestFontTheme : KyosekiTheme
+        {
+            public override FontUsage DefaultFont => new("Manrope");
         }
     }
 }
