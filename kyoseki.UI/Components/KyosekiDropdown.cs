@@ -181,7 +181,7 @@ namespace kyoseki.UI.Components
             [Themeable(nameof(UITheme.ForegroundSelected), nameof(ForegroundColourSelected))]
             [Themeable(nameof(UITheme.ForegroundSelected), nameof(ForegroundColourHover))]
             [Themeable(nameof(UITheme.ButtonSelected), nameof(BackgroundColourHover))]
-            [Themeable(nameof(UITheme.ButtonSelected), nameof(BackgroundColourSelected), 0.75f)]
+            [Themeable(nameof(UITheme.ButtonSelected), nameof(BackgroundColourSelected), Opacity = 0.75f)]
             private class DrawableKyosekiDropdownMenuItem : DrawableDropdownMenuItem, IHasNestedThemeComponents
             {
                 public DrawableKyosekiDropdownMenuItem(MenuItem item)
