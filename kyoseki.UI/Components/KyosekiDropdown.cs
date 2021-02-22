@@ -54,7 +54,7 @@ namespace kyoseki.UI.Components
             public FontUsage Font
             {
                 get => label.Font;
-                set => label.Font = value;
+                set => label.Font = value.With(size: font_size);
             }
 
             [Themeable(nameof(UITheme.ForegroundColour))]

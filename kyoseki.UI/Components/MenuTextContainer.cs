@@ -22,7 +22,7 @@ namespace kyoseki.UI.Components
         public FontUsage Font
         {
             get => text.Font;
-            set => text.Font = value;
+            set => text.Font = value.With(size: 15);
         }
 
         private readonly SpriteText text;
