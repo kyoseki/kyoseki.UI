@@ -3,8 +3,10 @@ using kyoseki.UI.Components.Theming;
 using NUnit.Framework;
 using osu.Framework.Allocation;
 using osu.Framework.Graphics;
+using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.Sprites;
+using osu.Framework.Graphics.UserInterface;
 using osu.Framework.Testing;
 
 namespace kyoseki.UI.Tests.Visual
@@ -24,18 +26,39 @@ namespace kyoseki.UI.Tests.Visual
                     {
                         RelativeSizeAxes = Axes.Both
                     },
-                    new KyosekiDropdown<string>
+                    new FillFlowContainer
                     {
-                        Width = 300,
-                        Anchor = Anchor.Centre,
-                        Origin = Anchor.TopCentre,
-                        Items = new[]
+                        RelativeSizeAxes = Axes.Both,
+                        Children = new Drawable[]
                         {
-                            "hello there!",
-                            "welcome to osu!",
-                            "test 1",
-                            "test 2",
-                            "test 3"
+                            new KyosekiDropdown<string>
+                            {
+                                Width = 300,
+                                Items = new[]
+                                {
+                                    "hello there!",
+                                    "welcome to osu!",
+                                    "test 1",
+                                    "test 2",
+                                    "test 3"
+                                }
+                            },
+                            new KyosekiMenu(Direction.Vertical, true)
+                            {
+                                State = MenuState.Open,
+                                Items = new[]
+                                {
+                                    new MenuItem("Item #1")
+                                    {
+                                        Items = new[]
+                                        {
+                                            new MenuItem("Sub-item #1")
+                                        }
+                                    },
+                                    new MenuItem("Item #2"),
+                                    new MenuItem("Item #3")
+                                }
+                            }
                         }
                     }
                 }

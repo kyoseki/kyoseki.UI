@@ -1,3 +1,5 @@
+using kyoseki.UI.Components.Theming;
+using osu.Framework.Allocation;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.UserInterface;
@@ -5,6 +7,7 @@ using osuTK;
 
 namespace kyoseki.UI.Components.Input
 {
+    [Themeable(nameof(UITheme.ButtonBackground), nameof(BackgroundColour))]
     public class KyosekiMenu : Menu
     {
         public const int FADE_DURATION = 250;
@@ -12,7 +15,6 @@ namespace kyoseki.UI.Components.Input
         public KyosekiMenu(Direction direction, bool topLevelMenu = false)
             : base(direction, topLevelMenu)
         {
-            BackgroundColour = KyosekiColors.Background.Lighten(0.75f);
             MaskingContainer.CornerRadius = 4;
         }
 
@@ -51,18 +53,42 @@ namespace kyoseki.UI.Components.Input
 
         protected override ScrollContainer<Drawable> CreateScrollContainer(Direction direction) => new KyosekiScrollContainer(direction);
 
-        private class DrawableKyosekiMenuItem : DrawableMenuItem
+        [BackgroundDependencyLoader(true)]
+        private void load(ThemeContainer themeContainer)
+        {
+            if (themeContainer != null)
+                themeContainer.Register(this);
+            else
+                this.ApplyTheme(new KyosekiTheme());
+        }
+
+        [Themeable(nameof(UITheme.ButtonSelected), nameof(BackgroundColourHover))]
+        private class DrawableKyosekiMenuItem : DrawableMenuItem, IHasNestedThemeComponents
         {
             public DrawableKyosekiMenuItem(MenuItem item)
                 : base(item)
             {
                 BackgroundColour = Colour4.Transparent;
-                BackgroundColourHover = KyosekiColors.ButtonSelected.Opacity(0.5f);
             }
 
             protected override Drawable CreateContent() => new MenuTextContainer();
 
             public void Show(int idx) => ((MenuTextContainer)Content).Show(idx);
+
+            public void ApplyThemeToChildren(UITheme theme, bool fade)
+            {
+                Content.ApplyTheme(theme, fade);
+            }
+
+            // TODO: required for reliability
+            [BackgroundDependencyLoader(true)]
+            private void load(ThemeContainer themeContainer)
+            {
+                if (themeContainer != null)
+                    themeContainer.Register(this);
+                else
+                    this.ApplyTheme(new KyosekiTheme());
+            }
         }
     }
 }

@@ -21,7 +21,7 @@ namespace kyoseki.UI.Components.Theming
             where T : Drawable
         {
             drawables.Add(drawable);
-            drawable.ApplyThemeGeneric(currentTheme);
+            drawable.ApplyTheme(currentTheme);
         }
 
         public void Unregister(Drawable drawable) => drawables.Remove(drawable);
@@ -30,7 +30,7 @@ namespace kyoseki.UI.Components.Theming
         {
             base.Update();
 
-            drawables.RemoveAll(d => !d.IsAlive);
+            drawables.RemoveAll(d => !d.IsAlive && !d.IsPresent);
         }
 
         public virtual void SetTheme(UITheme theme)
