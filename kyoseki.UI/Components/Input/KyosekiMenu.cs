@@ -3,7 +3,7 @@ using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.UserInterface;
 using osuTK;
 
-namespace kyoseki.UI.Components
+namespace kyoseki.UI.Components.Input
 {
     public class KyosekiMenu : Menu
     {

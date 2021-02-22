@@ -8,7 +8,7 @@ using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics.UserInterface;
 using osuTK;
 
-namespace kyoseki.UI.Components
+namespace kyoseki.UI.Components.Input
 {
     public class KyosekiDropdown<T> : Dropdown<T>, IHasNestedThemeComponents
     {
@@ -22,7 +22,7 @@ namespace kyoseki.UI.Components
             Menu.ApplyTheme(theme, fade);
         }
 
-        [BackgroundDependencyLoader]
+        [BackgroundDependencyLoader(true)]
         private void load(ThemeContainer themeContainer)
         {
             if (themeContainer != null)

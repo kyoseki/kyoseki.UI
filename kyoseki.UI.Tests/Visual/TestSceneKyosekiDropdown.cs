@@ -1,4 +1,4 @@
-using kyoseki.UI.Components;
+using kyoseki.UI.Components.Input;
 using osu.Framework.Graphics;
 using osu.Framework.Testing;
 

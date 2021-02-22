@@ -1,4 +1,4 @@
-﻿using kyoseki.UI.Components;
+﻿using kyoseki.UI.Components.Input;
 using kyoseki.UI.Components.Theming;
 using NUnit.Framework;
 using osu.Framework.Allocation;
