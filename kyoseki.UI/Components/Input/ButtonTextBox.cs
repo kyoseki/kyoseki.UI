@@ -1,6 +1,9 @@
 using System;
 using System.Linq;
 using kyoseki.UI.Components.Buttons;
+using kyoseki.UI.Components.Theming;
+using osu.Framework.Allocation;
+using osu.Framework.Extensions.Color4Extensions;
 using osu.Framework.Extensions.IEnumerableExtensions;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
@@ -8,12 +11,13 @@ using osu.Framework.Graphics.Cursor;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics.Transforms;
 using osuTK;
+using osuTK.Graphics;
 
 namespace kyoseki.UI.Components.Input
 {
     public class ButtonTextBox : KyosekiTextBox
     {
-        private readonly Container buttonContainer;
+        private readonly Container<SideButton> buttonContainer;
 
         private ButtonInfo[] buttons;
 
@@ -29,19 +33,42 @@ namespace kyoseki.UI.Components.Input
             }
         }
 
-        private int buttonCount => buttonContainer.Children.OfType<SideButton>().Count();
+        private Color4 buttonBackground;
 
-        private TransformSequence<Container> transform;
+        [Themeable(nameof(UITheme.ButtonBackground))]
+        public Color4 ButtonBackground
+        {
+            get => buttonBackground;
+            set
+            {
+                buttonBackground = value;
+
+                updateButtonColour();
+            }
+        }
+
+        private int buttonCount => buttonContainer.Count;
+
+        private TransformSequence<Container<SideButton>> transform;
 
         public ButtonTextBox()
         {
-            Add(buttonContainer = new Container
+            Add(buttonContainer = new Container<SideButton>
             {
                 Anchor = Anchor.CentreRight,
                 Origin = Anchor.CentreRight,
                 RelativeSizeAxes = Axes.Y,
                 AutoSizeAxes = Axes.X
             });
+        }
+
+        [BackgroundDependencyLoader(true)]
+        private void load(ThemeContainer themeContainer)
+        {
+            if (themeContainer != null)
+                themeContainer.Register(this);
+            else
+                this.ApplyTheme(new KyosekiTheme());
         }
 
         public void AddButton(ButtonInfo info)
@@ -52,10 +79,17 @@ namespace kyoseki.UI.Components.Input
                 Origin = Anchor.CentreRight,
                 Size = new Vector2(HEIGHT * (buttons.Length - buttonCount), HEIGHT),
                 Icon = info.Icon,
-                BackgroundColour = KyosekiColors.ButtonBackground.Lighten((buttons.Length - buttonCount) * 0.25f),
                 Action = info.Action,
                 TooltipText = info.Tooltip
             });
+
+            updateButtonColour();
+        }
+
+        private void updateButtonColour()
+        {
+            for (int i = 0; i < buttonContainer.Count; i++)
+                buttonContainer[i].BackgroundColour = ButtonBackground.Lighten((buttons.Length - i) * 0.2f);
         }
 
         protected override void Update()
@@ -78,6 +112,7 @@ namespace kyoseki.UI.Components.Input
             {
                 Masking = true;
                 CornerRadius = HEIGHT / 2f;
+                DisableBackgroundTheming = true;
             }
 
             protected override SpriteIcon CreateIcon() => new SpriteIcon
@@ -86,8 +121,7 @@ namespace kyoseki.UI.Components.Input
                 Anchor = Anchor.CentreLeft,
                 Origin = Anchor.Centre,
                 X = HEIGHT / 2,
-                Size = new Vector2(0.3f),
-                Colour = KyosekiColors.Foreground
+                Size = new Vector2(0.3f)
             };
         }
     }

@@ -1,5 +1,8 @@
+using kyoseki.UI.Components.Theming;
+using osu.Framework.Allocation;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics;
+using osu.Framework.Graphics.Colour;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.Sprites;
@@ -17,37 +20,59 @@ namespace kyoseki.UI.Components.Input
 
         protected virtual float CaretWidth => 2;
 
-        private Colour4 backgroundFocused = KyosekiColors.TextBoxFocused;
+        private ColourInfo backgroundFocused;
 
-        protected Colour4 BackgroundFocused
+        [Themeable(nameof(UITheme.TextBoxFocused))]
+        public ColourInfo BackgroundFocused
         {
             get => backgroundFocused;
             set
             {
                 backgroundFocused = value;
+
                 if (HasFocus)
+                {
+                    background.ClearTransforms();
                     background.Colour = value;
+                }
             }
         }
 
-        private Colour4 backgroundUnfocused = KyosekiColors.TextBoxUnfocused;
+        private ColourInfo backgroundUnfocused;
 
-        protected Colour4 BackgroundUnfocused
+        [Themeable(nameof(UITheme.TextBoxUnfocused))]
+        public ColourInfo BackgroundUnfocused
         {
             get => backgroundUnfocused;
             set
             {
                 backgroundUnfocused = value;
-                if (!HasFocus)
+
+                if (!HasFocus && !ReadOnly.Value)
+                {
+                    background.ClearTransforms();
                     background.Colour = value;
+                }
             }
         }
 
-        protected Colour4 BackgroundCommit { get; set; } = KyosekiColors.TextSelected;
+        [Themeable(nameof(UITheme.TextSelected))]
+        public ColourInfo BackgroundCommit { get; set; }
 
-        protected virtual Colour4 SelectionColour => KyosekiColors.TextSelected;
+        private ColourInfo backgroundReadOnly;
 
-        private readonly FontUsage font = KyosekiFont.GetFont();
+        [Themeable(nameof(UITheme.TextBoxReadOnly))]
+        public ColourInfo BackgroundReadOnly
+        {
+            get => backgroundReadOnly;
+            set
+            {
+                backgroundReadOnly = value;
+
+                if (ReadOnly.Value)
+                    background.Colour = value;
+            }
+        }
 
         public new BindableBool ReadOnly = new BindableBool();
 
@@ -77,6 +102,15 @@ namespace kyoseki.UI.Components.Input
             };
         }
 
+        [BackgroundDependencyLoader(true)]
+        private void load(ThemeContainer themeContainer)
+        {
+            if (themeContainer != null)
+                themeContainer.Register(this);
+            else
+                this.ApplyTheme(new KyosekiTheme());
+        }
+
         public new void Commit() => base.Commit();
 
         protected virtual void UpdateState(bool readOnly)
@@ -84,23 +118,20 @@ namespace kyoseki.UI.Components.Input
             if (readOnly)
                 Schedule(KillFocus);
 
-            var target = readOnly ? KyosekiColors.TextBoxReadOnly : KyosekiColors.TextBoxUnfocused;
+            var target = readOnly ? BackgroundReadOnly : BackgroundUnfocused;
             background.ClearTransforms();
             background.FadeColour(target, 100, Easing.In);
 
             base.ReadOnly = readOnly;
         }
 
-        protected override Caret CreateCaret() => new BasicTextBox.BasicCaret
+        protected override Caret CreateCaret() => new ThemeableCaret
         {
-            CaretWidth = CaretWidth,
-            SelectionColour = SelectionColour
+            CaretWidth = CaretWidth
         };
 
-        protected override SpriteText CreatePlaceholder() => new BasicTextBox.FadingPlaceholderText
+        protected override SpriteText CreatePlaceholder() => new ThemeablePlaceholderText
         {
-            Colour = Colour4.White,
-            Font = font.With(weight: FontWeight.Bold),
             Anchor = Anchor.CentreLeft,
             Origin = Anchor.CentreLeft,
             X = CaretWidth
@@ -109,7 +140,7 @@ namespace kyoseki.UI.Components.Input
         protected override Drawable GetDrawableCharacter(char c) => new BasicTextBox.FallingDownContainer
         {
             AutoSizeAxes = Axes.Both,
-            Child = new SpriteText { Text = c.ToString(), Font = font.With(size: CalculatedTextSize) }
+            Child = new ThemeableCharacter { Text = c.ToString() }
         };
 
         protected override void OnTextCommitted(bool textChanged)
@@ -158,6 +189,59 @@ namespace kyoseki.UI.Components.Input
             }
 
             sequence.MoveToX(origin, shake_duration, Easing.InSine);
+        }
+
+        [Themeable(nameof(UITheme.TextSelected), nameof(SelectionColour))]
+        private class ThemeableCaret : BasicTextBox.BasicCaret
+        {
+            [BackgroundDependencyLoader(true)]
+            private void load(ThemeContainer themeContainer)
+            {
+                if (themeContainer != null)
+                    themeContainer.Register(this);
+                else
+                    this.ApplyTheme(new KyosekiTheme());
+            }
+        }
+
+        [Themeable(nameof(UITheme.ForegroundColour), nameof(Colour))]
+        private class ThemeablePlaceholderText : BasicTextBox.FadingPlaceholderText
+        {
+            [Themeable(nameof(UITheme.DefaultFont))]
+            public FontUsage DefaultFont
+            {
+                get => Font;
+                set => Font = value.With(weight: "Bold");
+            }
+
+            [BackgroundDependencyLoader(true)]
+            private void load(ThemeContainer themeContainer)
+            {
+                if (themeContainer != null)
+                    themeContainer.Register(this);
+                else
+                    this.ApplyTheme(new KyosekiTheme());
+            }
+        }
+
+        [Themeable(nameof(UITheme.ForegroundColour), nameof(Colour))]
+        private class ThemeableCharacter : SpriteText
+        {
+            [Themeable(nameof(UITheme.DefaultFont))]
+            public FontUsage DefaultFont
+            {
+                get => Font;
+                set => Font = value;
+            }
+
+            [BackgroundDependencyLoader(true)]
+            private void load(ThemeContainer themeContainer)
+            {
+                if (themeContainer != null)
+                    themeContainer.Register(this);
+                else
+                    this.ApplyTheme(new KyosekiTheme());
+            }
         }
     }
 }

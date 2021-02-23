@@ -20,6 +20,8 @@ namespace kyoseki.UI.Components.Theming
         public void Register<T>(T drawable)
             where T : Drawable
         {
+            if (drawables.Contains(drawable)) return;
+
             drawables.Add(drawable);
             drawable.ApplyTheme(currentTheme);
         }

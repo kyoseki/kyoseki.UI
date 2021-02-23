@@ -12,6 +12,7 @@ namespace kyoseki.UI.Components.Theming
     {
         public readonly string TargetProperty;
         public readonly string ThemeProperty;
+        public readonly string DisableProperty;
 
         public float EaseDuration = 200;
         public Easing Easing = Easing.InOutQuad;
@@ -20,10 +21,11 @@ namespace kyoseki.UI.Components.Theming
         public float Darkness;
         public float Opacity = 1;
 
-        public ThemeableAttribute(string themeProperty, string targetProperty = null)
+        public ThemeableAttribute(string themeProperty, string targetProperty = null, string disableProperty = null)
         {
             ThemeProperty = themeProperty;
             TargetProperty = targetProperty;
+            DisableProperty = disableProperty;
         }
 
         private void transform<T, TValue>(T d, string prop, TValue target)
@@ -33,6 +35,9 @@ namespace kyoseki.UI.Components.Theming
         public void ApplyTo<T>(T d, PropertyInfo prop, UITheme theme, bool fade)
             where T : Drawable
         {
+            if (!string.IsNullOrEmpty(DisableProperty) && d.GetType().GetProperty(DisableProperty)?.GetValue(d) is bool b && b)
+                return;
+
             var themeProp = theme.GetType().GetProperty(ThemeProperty);
             if (themeProp == null) return;
 

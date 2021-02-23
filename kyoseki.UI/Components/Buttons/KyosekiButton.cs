@@ -1,4 +1,6 @@
-﻿using osu.Framework.Graphics;
+﻿using kyoseki.UI.Components.Theming;
+using osu.Framework.Allocation;
+using osu.Framework.Graphics;
 using osu.Framework.Graphics.Colour;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
@@ -16,13 +18,17 @@ namespace kyoseki.UI.Components.Buttons
 
         public bool ConsumeHover = true;
 
+        public bool DisableBackgroundTheming { get; set; }
+
+        [Themeable(nameof(UITheme.ButtonBackground), disableProperty: nameof(DisableBackgroundTheming))]
         public ColourInfo BackgroundColour
         {
             get => Background.Colour;
             set => Background.Colour = value;
         }
 
-        public ColourInfo FlashColour { get; set; } = KyosekiColors.ButtonSelected;
+        [Themeable(nameof(UITheme.ButtonSelected))]
+        public ColourInfo FlashColour { get; set; }
 
         protected virtual Container CreateContent() =>
             new Container
@@ -39,8 +45,7 @@ namespace kyoseki.UI.Components.Buttons
             {
                 Background = new Box
                 {
-                    RelativeSizeAxes = Axes.Both,
-                    Colour = KyosekiColors.ButtonBackground
+                    RelativeSizeAxes = Axes.Both
                 },
                 Content = new Container
                 {
@@ -73,6 +78,15 @@ namespace kyoseki.UI.Components.Buttons
         {
             Background.FlashColour(FlashColour, 200);
             return base.OnClick(e);
+        }
+
+        [BackgroundDependencyLoader(true)]
+        private void load(ThemeContainer themeContainer)
+        {
+            if (themeContainer != null)
+                themeContainer.Register(this);
+            else
+                this.ApplyTheme(new KyosekiTheme());
         }
     }
 }

@@ -17,6 +17,8 @@ namespace kyoseki.UI.Tests.Visual
 
         public TestSceneThemeContainer()
         {
+            KyosekiTextBox textBox;
+
             Add(themeContainer = new ThemeContainer(new UITheme())
             {
                 RelativeSizeAxes = Axes.Both,
@@ -57,12 +59,26 @@ namespace kyoseki.UI.Tests.Visual
                                     },
                                     new MenuItem("Item #2"),
                                     new MenuItem("Item #3")
+                                },
+                                Depth = -int.MaxValue
+                            },
+                            textBox = new ButtonTextBox
+                            {
+                                Width = 500,
+                                PlaceholderText = "I have buttons",
+                                Buttons = new[]
+                                {
+                                    new ButtonInfo(FontAwesome.Solid.Trash, "Delete"),
+                                    new ButtonInfo(FontAwesome.Solid.Undo, "Undo"),
+                                    new ButtonInfo(FontAwesome.Brands.Twitter, "Cancer")
                                 }
                             }
                         }
                     }
                 }
             });
+
+            AddStep("toggle readonly", () => textBox.ReadOnly.Value = !textBox.ReadOnly.Value);
         }
 
         [Test]
