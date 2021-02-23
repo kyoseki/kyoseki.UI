@@ -1,0 +1,10 @@
+﻿{
+  "solution": {
+    "path": "kyoseki.UI.sln",
+    "projects": [
+      "kyoseki.UI.Desktop\\kyoseki.UI.Desktop.csproj",
+      "kyoseki.UI\\kyoseki.UI.csproj",
+      "kyoseki.UI.Tests\\kyoseki.UI.Tests.csproj"
+    ]
+  }
+}
