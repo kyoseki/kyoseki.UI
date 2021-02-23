@@ -1,5 +1,4 @@
-﻿using kyoseki.UI.Components;
-using kyoseki.UI.Components.Pooling;
+﻿using kyoseki.UI.Components.Pooling;
 using NUnit.Framework;
 using osu.Framework.Bindables;
 using osu.Framework.Graphics;
@@ -62,7 +61,7 @@ namespace kyoseki.UI.Tests.Visual
 
                 InternalChild = spriteText = new SpriteText
                 {
-                    Font = KyosekiFont.GetFont(size: text_height),
+                    Font = FontUsage.Default.With(size: text_height),
                     RelativeSizeAxes = Axes.X
                 };
 

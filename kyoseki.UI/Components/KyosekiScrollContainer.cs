@@ -48,8 +48,7 @@ namespace kyoseki.UI.Components
 
                 Child = bar = new Box
                 {
-                    RelativeSizeAxes = Axes.Both,
-                    Colour = KyosekiColors.ButtonSelected
+                    RelativeSizeAxes = Axes.Both
                 };
             }
 
