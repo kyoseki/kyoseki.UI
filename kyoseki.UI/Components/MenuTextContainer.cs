@@ -2,6 +2,7 @@ using System;
 using kyoseki.UI.Components.Input;
 using kyoseki.UI.Components.Theming;
 using osu.Framework.Graphics;
+using osu.Framework.Graphics.Colour;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Sprites;
 
@@ -24,6 +25,13 @@ namespace kyoseki.UI.Components
         {
             get => text.Font;
             set => text.Font = value.With(size: 15);
+        }
+
+        [Themeable(nameof(UITheme.ForegroundColour))]
+        public ColourInfo ForegroundColour
+        {
+            get => text.Colour;
+            set => text.Colour = value;
         }
 
         private readonly SpriteText text;

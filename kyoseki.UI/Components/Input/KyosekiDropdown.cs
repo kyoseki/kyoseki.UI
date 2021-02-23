@@ -177,7 +177,6 @@ namespace kyoseki.UI.Components.Input
                 }
             }
 
-            [Themeable(nameof(UITheme.ForegroundColour), nameof(ForegroundColour))]
             [Themeable(nameof(UITheme.ForegroundSelected), nameof(ForegroundColourSelected))]
             [Themeable(nameof(UITheme.ForegroundSelected), nameof(ForegroundColourHover))]
             [Themeable(nameof(UITheme.ButtonSelected), nameof(BackgroundColourHover))]
