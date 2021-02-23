@@ -361,6 +361,9 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
+inspectcodereport.xml
+inspectcode
+
 # Common IntelliJ Platform excludes
 # Reference:  https://github.com/JetBrains/resharper-rider-samples/blob/master/.gitignore
 
