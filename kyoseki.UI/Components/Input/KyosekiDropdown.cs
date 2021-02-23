@@ -84,7 +84,8 @@ namespace kyoseki.UI.Components.Input
                 {
                     label = new SpriteText
                     {
-                        AlwaysPresent = true
+                        AlwaysPresent = true,
+                        Height = font_size
                     },
                     icon = new SpriteIcon
                     {
