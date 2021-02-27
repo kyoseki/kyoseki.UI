@@ -1,10 +1,9 @@
-﻿using kyoseki.UI.Components.Input;
+﻿using kyoseki.UI.Components;
+using kyoseki.UI.Components.Input;
 using kyoseki.UI.Components.Theming;
 using NUnit.Framework;
-using osu.Framework.Allocation;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
-using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics.UserInterface;
 using osu.Framework.Testing;
@@ -87,16 +86,6 @@ namespace kyoseki.UI.Tests.Visual
             AddStep("default theme", () => themeContainer.SetTheme(new UITheme()));
             AddStep("kyoseki", () => themeContainer.SetTheme(new KyosekiTheme()));
             AddStep("with font", () => themeContainer.SetTheme(new TestFontTheme()));
-        }
-
-        [Themeable(nameof(UITheme.BackgroundColour), nameof(Colour))]
-        private class Background : Box
-        {
-            [BackgroundDependencyLoader(true)]
-            private void load(ThemeContainer themeContainer)
-            {
-                themeContainer?.Register(this);
-            }
         }
 
         private class TestFontTheme : KyosekiTheme
