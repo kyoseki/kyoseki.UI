@@ -7,7 +7,7 @@ namespace kyoseki.UI.Components
     [Themeable(nameof(UITheme.BackgroundColour), nameof(Colour))]
     public class Background : Box
     {
-        [BackgroundDependencyLoader]
+        [BackgroundDependencyLoader(true)]
         private void load(ThemeContainer themeContainer)
         {
             if (themeContainer != null)
