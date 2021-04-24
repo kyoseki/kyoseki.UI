@@ -5,6 +5,7 @@ using osu.Framework.Graphics;
 using osu.Framework.Graphics.Colour;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Sprites;
+using osu.Framework.Localisation;
 
 namespace kyoseki.UI.Components
 {
@@ -14,7 +15,7 @@ namespace kyoseki.UI.Components
 
         private const int margin_vertical = 3;
 
-        public string Text
+        public LocalisableString Text
         {
             get => text.Text;
             set => text.Text = value;

@@ -3,12 +3,13 @@ using osu.Framework.Allocation;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Colour;
 using osu.Framework.Graphics.Sprites;
+using osu.Framework.Localisation;
 
 namespace kyoseki.UI.Components.Buttons
 {
     public class TextButton : KyosekiButton
     {
-        public string Text
+        public LocalisableString Text
         {
             get => spriteText.Text;
             set => spriteText.Text = value;

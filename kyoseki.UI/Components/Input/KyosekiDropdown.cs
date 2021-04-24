@@ -6,6 +6,7 @@ using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics.UserInterface;
+using osu.Framework.Localisation;
 using osuTK;
 
 namespace kyoseki.UI.Components.Input
@@ -44,7 +45,7 @@ namespace kyoseki.UI.Components.Input
             private readonly SpriteText label;
             private readonly SpriteIcon icon;
 
-            protected override string Label
+            protected override LocalisableString Label
             {
                 get => label.Text;
                 set => label.Text = value;
