@@ -140,7 +140,7 @@ namespace kyoseki.UI.Components.Input
         protected override Drawable GetDrawableCharacter(char c) => new BasicTextBox.FallingDownContainer
         {
             AutoSizeAxes = Axes.Both,
-            Child = new ThemeableCharacter { Text = c.ToString() }
+            Child = new ThemedText { Text = c.ToString() }
         };
 
         protected override void OnTextCommitted(bool textChanged)
@@ -212,26 +212,6 @@ namespace kyoseki.UI.Components.Input
             {
                 get => Font;
                 set => Font = value.With(weight: "Bold");
-            }
-
-            [BackgroundDependencyLoader(true)]
-            private void load(ThemeContainer themeContainer)
-            {
-                if (themeContainer != null)
-                    themeContainer.Register(this);
-                else
-                    this.ApplyTheme(new KyosekiTheme());
-            }
-        }
-
-        [Themeable(nameof(UITheme.ForegroundColour), nameof(Colour))]
-        private class ThemeableCharacter : SpriteText
-        {
-            [Themeable(nameof(UITheme.DefaultFont))]
-            public FontUsage DefaultFont
-            {
-                get => Font;
-                set => Font = value;
             }
 
             [BackgroundDependencyLoader(true)]
