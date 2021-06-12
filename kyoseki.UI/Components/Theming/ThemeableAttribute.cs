@@ -21,6 +21,8 @@ namespace kyoseki.UI.Components.Theming
         public float Darkness;
         public float Opacity = 1;
 
+        public string Weight;
+
         public ThemeableAttribute(string themeProperty, string targetProperty = null, string disableProperty = null)
         {
             ThemeProperty = themeProperty;
@@ -64,7 +66,7 @@ namespace kyoseki.UI.Components.Theming
             }
             else if (value is FontUsage targetFont && prop.PropertyType == typeof(FontUsage))
             {
-                prop.SetValue(d, targetFont);
+                prop.SetValue(d, targetFont.With(weight: Weight));
             }
         }
     }

@@ -205,15 +205,9 @@ namespace kyoseki.UI.Components.Input
         }
 
         [Themeable(nameof(UITheme.ForegroundColour), nameof(Colour))]
+        [Themeable(nameof(UITheme.DefaultFont), nameof(Font), Weight = "Bold")]
         private class ThemeablePlaceholderText : BasicTextBox.FadingPlaceholderText
         {
-            [Themeable(nameof(UITheme.DefaultFont))]
-            public FontUsage DefaultFont
-            {
-                get => Font;
-                set => Font = value.With(weight: "Bold");
-            }
-
             [BackgroundDependencyLoader(true)]
             private void load(ThemeContainer themeContainer)
             {

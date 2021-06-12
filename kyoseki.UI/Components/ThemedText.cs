@@ -5,15 +5,9 @@ using osu.Framework.Graphics.Sprites;
 namespace kyoseki.UI.Components
 {
     [Themeable(nameof(UITheme.ForegroundColour), nameof(Colour))]
+    [Themeable(nameof(UITheme.DefaultFont), nameof(Font))]
     public class ThemedText : SpriteText
     {
-        [Themeable(nameof(UITheme.DefaultFont))]
-        public FontUsage DefaultFont
-        {
-            get => Font;
-            set => Font = value;
-        }
-
         [BackgroundDependencyLoader(true)]
         private void load(ThemeContainer themeContainer)
         {
