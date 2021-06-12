@@ -27,7 +27,7 @@ namespace kyoseki.UI.Components.Buttons
             set => Background.Colour = value;
         }
 
-        [Themeable(nameof(UITheme.ButtonSelected))]
+        [Themeable(nameof(UITheme.ButtonSelected), disableProperty: nameof(DisableBackgroundTheming))]
         public ColourInfo FlashColour { get; set; }
 
         protected virtual Container CreateContent() =>
