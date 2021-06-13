@@ -140,7 +140,7 @@ namespace kyoseki.UI.Components.Input
         protected override Drawable GetDrawableCharacter(char c) => new BasicTextBox.FallingDownContainer
         {
             AutoSizeAxes = Axes.Both,
-            Child = new ThemedText { Text = c.ToString() }
+            Child = new ThemedText(CalculatedTextSize) { Text = c.ToString() }
         };
 
         protected override void OnTextCommitted(bool textChanged)

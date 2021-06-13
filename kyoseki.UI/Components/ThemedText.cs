@@ -8,6 +8,20 @@ namespace kyoseki.UI.Components
     [Themeable(nameof(UITheme.DefaultFont), nameof(Font))]
     public class ThemedText : SpriteText
     {
+        [Themeable(nameof(UITheme.DefaultFont))]
+        public FontUsage DefaultFont
+        {
+            get => Font;
+            set => Font = value.With(size: size);
+        }
+
+        private readonly float size;
+
+        public ThemedText(float size)
+        {
+            this.size = size;
+        }
+
         [BackgroundDependencyLoader(true)]
         private void load(ThemeContainer themeContainer)
         {
