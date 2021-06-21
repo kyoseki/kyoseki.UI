@@ -15,9 +15,9 @@ namespace kyoseki.UI.Components
             set => Font = value.With(size: size);
         }
 
-        private readonly float size;
+        private readonly float? size;
 
-        public ThemedText(float size)
+        public ThemedText(float? size = null)
         {
             this.size = size;
         }
