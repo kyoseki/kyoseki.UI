@@ -73,6 +73,7 @@ namespace kyoseki.UI.Tests.Visual
 
             protected override void UpdateItem()
             {
+                Height = Item.Height;
                 text.UnbindBindings();
                 text.BindTo(((TestPoolableScrollItem)Item).Text);
             }
