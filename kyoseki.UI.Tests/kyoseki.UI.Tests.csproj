@@ -8,6 +8,7 @@
   <ItemGroup Label="Package References">
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0-release-20210626-04" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.0.0" />
+    <PackageReference Include="System.ComponentModel.Composition" Version="6.0.0-preview.5.21301.5" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\kyoseki.UI\kyoseki.UI.csproj" />
