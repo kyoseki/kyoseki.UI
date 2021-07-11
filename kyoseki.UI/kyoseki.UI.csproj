@@ -4,6 +4,6 @@
     <RootNamespace>kyoseki.UI</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="ppy.osu.Framework" Version="2021.611.0" />
+    <PackageReference Include="ppy.osu.Framework" Version="2021.707.0" />
   </ItemGroup>
 </Project>

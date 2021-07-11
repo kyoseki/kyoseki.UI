@@ -10,6 +10,7 @@ using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Cursor;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics.Transforms;
+using osu.Framework.Localisation;
 using osuTK;
 using osuTK.Graphics;
 
@@ -106,7 +107,7 @@ namespace kyoseki.UI.Components.Input
 
         private class SideButton : IconButton, IHasTooltip
         {
-            public string TooltipText { get; set; }
+            public LocalisableString TooltipText { get; set; }
 
             public SideButton()
             {
