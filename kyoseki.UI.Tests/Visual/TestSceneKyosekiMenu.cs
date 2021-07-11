@@ -1,11 +1,10 @@
 using kyoseki.UI.Components.Input;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.UserInterface;
-using osu.Framework.Testing;
 
 namespace kyoseki.UI.Tests.Visual
 {
-    public class TestSceneKyosekiMenu : TestScene
+    public class TestSceneKyosekiMenu : ThemeTestScene
     {
         public TestSceneKyosekiMenu()
         {

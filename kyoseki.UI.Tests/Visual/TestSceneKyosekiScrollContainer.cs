@@ -1,11 +1,10 @@
 using kyoseki.UI.Components;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Sprites;
-using osu.Framework.Testing;
 
 namespace kyoseki.UI.Tests.Visual
 {
-    public class TestSceneKyosekiScrollContainer : TestScene
+    public class TestSceneKyosekiScrollContainer : ThemeTestScene
     {
         protected override double TimePerAction => 50;
 

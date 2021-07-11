@@ -1,10 +1,9 @@
 using kyoseki.UI.Components.Input;
 using osu.Framework.Graphics;
-using osu.Framework.Testing;
 
 namespace kyoseki.UI.Tests.Visual
 {
-    public class TestSceneKyosekiDropdown : TestScene
+    public class TestSceneKyosekiDropdown : ThemeTestScene
     {
         public TestSceneKyosekiDropdown()
         {

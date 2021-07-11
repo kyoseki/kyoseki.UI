@@ -2,12 +2,11 @@
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Shapes;
-using osu.Framework.Testing;
 using osuTK;
 
 namespace kyoseki.UI.Tests.Visual
 {
-    public class TestSceneKyosekiCheckbox : TestScene
+    public class TestSceneKyosekiCheckbox : ThemeTestScene
     {
         public TestSceneKyosekiCheckbox()
         {

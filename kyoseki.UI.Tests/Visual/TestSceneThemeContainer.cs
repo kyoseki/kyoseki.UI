@@ -1,32 +1,20 @@
-﻿using kyoseki.UI.Components;
-using kyoseki.UI.Components.Input;
-using kyoseki.UI.Components.Theming;
-using NUnit.Framework;
+﻿using kyoseki.UI.Components.Input;
 using osu.Framework.Graphics;
 using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Graphics.UserInterface;
-using osu.Framework.Testing;
 
 namespace kyoseki.UI.Tests.Visual
 {
-    public class TestSceneThemeContainer : TestScene
+    public class TestSceneThemeContainer : ThemeTestScene
     {
-        private readonly ThemeContainer themeContainer;
-
         public TestSceneThemeContainer()
         {
-            KyosekiTextBox textBox;
-
-            Add(themeContainer = new ThemeContainer(new UITheme())
+            Add(new Container
             {
                 RelativeSizeAxes = Axes.Both,
                 Children = new Drawable[]
                 {
-                    new Background
-                    {
-                        RelativeSizeAxes = Axes.Both
-                    },
                     new FillFlowContainer
                     {
                         RelativeSizeAxes = Axes.Both,
@@ -61,7 +49,7 @@ namespace kyoseki.UI.Tests.Visual
                                 },
                                 Depth = -int.MaxValue
                             },
-                            textBox = new ButtonTextBox
+                            new ButtonTextBox
                             {
                                 Width = 500,
                                 PlaceholderText = "I have buttons",
@@ -76,21 +64,6 @@ namespace kyoseki.UI.Tests.Visual
                     }
                 }
             });
-
-            AddStep("toggle readonly", () => textBox.ReadOnly.Value = !textBox.ReadOnly.Value);
-        }
-
-        [Test]
-        public void TestSetTheme()
-        {
-            AddStep("default theme", () => themeContainer.SetTheme(new UITheme()));
-            AddStep("kyoseki", () => themeContainer.SetTheme(new KyosekiTheme()));
-            AddStep("with font", () => themeContainer.SetTheme(new TestFontTheme()));
-        }
-
-        private class TestFontTheme : KyosekiTheme
-        {
-            public override FontUsage DefaultFont => new("Manrope");
         }
     }
 }
